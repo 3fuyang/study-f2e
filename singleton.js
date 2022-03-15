@@ -1,4 +1,4 @@
-// 单例模式
+// 1.单例模式
 
 // 管理单例职责
 const singletonFactory = (fn) => {
