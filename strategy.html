@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>策略模式完成表单校验</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <form action="#" id="test">
+      用户名：<input type="text" name="userName"><br/>
+      密码：<input type="password" name="password"><br/>
+      手机号码：<input type="tel" name="telNum"><br/>
+      <button type="submit">提交</button>
+    </form>
+    <script>
+      // 校验规则：用户名不能为空；密码不少于6位；手机号码必须符合格式
+
+      // 策略对象
+      const strategies = {
+        // 不能为空
+        isNotEmpty: function(value, errMsg){
+          if(!value){
+            return errMsg
+          }
+        },
+        // 最小长度
+        minLength: function(value, len, errMsg){
+          if(value.length < len){
+            return errMsg
+          }
+        },
+        // 正则表达式
+        reg: function(value, exp, errMsg){
+          if(!exp.test(value)){
+            return errMsg
+          }
+        }
+      }
+
+      // Context
+      let Validator = function(){
+        this.cache = []
+      }
+
+      Validator.prototype.add = function(dom, rules){
+        let self = this
+        for(let rule of rules){
+          (function(rl){
+            let strategyArgs = rl.strategy.split(':')
+            let errMsg = rl.errorMsg
+            self.cache.push(function(){
+              let strategy = strategyArgs.shift()
+              strategyArgs.unshift(dom.value)
+              strategyArgs.push(errMsg)
+              return strategies[strategy].apply(dom, strategyArgs)
+            })
+          })(rule)
+        }
+      }
+
+      Validator.prototype.start = function(){
+        for(let validatorFunc of this.cache){
+          let res = validatorFunc()
+          if(res){
+            return res
+          }
+        }
+      }
+
+      // 测试
+      const registerForm = document.getElementById('test')
+
+      const validatorFunc = function(){
+        const validator = new Validator()
+
+        validator.add( registerForm.userName, [{
+          strategy: 'isNotEmpty',
+          errorMsg: '用户名不能为空'
+        },{
+          strategy: 'minLength:10',
+          errorMsg: '用户名不能少于10位'          
+        }])
+
+        let errMsg = validator.start()
+        return errMsg
+      }
+
+      registerForm.onsubmit = function(){
+        let res = validatorFunc()
+        console.log(res)
+        if(res){
+          alert(res)
+        }
+      }
+    </script>
+  </body>
+</html>
