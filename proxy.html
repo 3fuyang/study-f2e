@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>虚拟代理合并HTTP请求</title>
+</head>
+<body>
+  <input type="checkbox" id="1">1
+  <input type="checkbox" id="2">2
+  <input type="checkbox" id="3">3
+  <input type="checkbox" id="4">4
+  <input type="checkbox" id="5">5
+  <input type="checkbox" id="6">6
+  <input type="checkbox" id="7">7
+  <script>
+    const synchronousFile = (id) => {
+      console.log(`开始同步文件，文件id为：${id}`)
+    }
+
+    // 同步上传文件的虚拟代理
+    const proxySynchronousFile = (() => {
+      const cache = []
+      let timer
+
+      return (id) => {
+        cache.push(id)
+        if(timer){
+          return
+        }
+        // 节流，每2秒最多同步一次
+        timer = setTimeout(() => {
+          synchronousFile(cache.join(','))
+          cache.length = 0
+          clearTimeout(timer)
+          timer = null
+        }, 2000);
+      }
+    })()  // IIFE
+
+    const checkbox = document.getElementsByTagName('input')
+    console.log(checkbox)
+    for(let c of checkbox){
+      // 箭头函数作为事件回调，通过event.target对象访问DOM节点
+      c.addEventListener('click', (e) => {
+        if(e.target.checked === true){
+          proxySynchronousFile(e.target.id)
+        }
+      })
+    }
+  </script>
+</body>
+</html>
