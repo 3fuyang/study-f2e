@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 6.命令模式: 在将函数作为一等对象的JavaScript中，由于函数本身可以被四处传递,
+    // 命令模式和策略模式一样，都已融入JavaScript语言中。
+    const setCommand = function(button, command){
+      button.onclick = () => {
+        command.execute()
+      }
+    }
+
+    let MenuBar = {
+      refresh: () => {
+        console.log(`刷新页面`)
+      }
+    }
+
+    let RefreshMenuBarCommand = function(receiver){
+      return function(){
+        receiver.refresh()
+      }
+    }
+
+    let refreshMenuBarCommand = RefreshMenuBarCommand(MenuBar)
+
+    setCommand(button1, refreshMenuBarCommand)
+
+    // 撤销与重做
+    const commandStack = [] // 保存命令的堆栈
+
+    // 命令队列
+
+    // 宏命令，是一组命令的集合
+
+  </script>
+</body>
+</html>
