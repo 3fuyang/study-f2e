@@ -15,6 +15,7 @@
   <input type="checkbox" id="6">6
   <input type="checkbox" id="7">7
   <script>
+    // 场景：有一组多选框，每次单击选项将触发同步文件上传，使用虚拟代理实现简单的节流功能
     const synchronousFile = (id) => {
       console.log(`开始同步文件，文件id为：${id}`)
     }
@@ -39,6 +40,7 @@
       }
     })()  // IIFE
 
+    // 测试
     const checkbox = document.getElementsByTagName('input')
     console.log(checkbox)
     for(let c of checkbox){
