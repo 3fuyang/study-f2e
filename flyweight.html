@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>享元模式</title>
+</head>
+<body>
+  <script>
+  // 9.享元模式：用共享的方式支持大量的细粒度对象，内部状态（可以共享，独立于具体的场景）、外部状态（取决于具体的场景）。
+  // 没有内部状态的享元模式将退化为单例工厂模式；由于不存在外部状态，字符串是一个共享的典型例子，但不是纯粹的享元模式。
+  // 主要用于解决性能问题
+
+  /* 通用对象池实现 */
+  const objectPoolFactory = (createObjFn) => {
+    // 储存空闲的对象
+    const objectPool = []
+    
+    return {
+      create: function(){
+        // 若池中有对象，则调用一个对象；否则创建一个
+        let obj = objectPool.length === 0?
+          createObjFn.apply(this, arguments):objectPool.shift()
+        return obj
+      },
+      recover: function(obj){
+        objectPool.push(obj)
+      }
+    }
+  }
+
+  // 测试：创建一个装载一些iframe的对象池
+  const iframeFactory = objectPoolFactory(function(){
+    const iframe = document.createElement(`iframe`)
+    document.body.append(iframe)
+
+    iframe.onload = () => {
+      iframe.onload = null  // 防止iframe重新加载的bug
+      iframeFactory.recover(iframe) // iframe加载完后回收节点
+    }
+
+    return iframe
+  })
+
+  const iframe1 = iframeFactory.create()
+  iframe1.src = `https://vuejs.org/`
+
+  const iframe2 = iframeFactory.create()
+  iframe2.src = `https://nuxtjs.org/`
+
+  setTimeout(() => {
+    const iframe3 = iframeFactory.create()
+    iframe3.src = `https://naive-ui-admin.vercel.app/#/dashboard/console`
+  }, 3000)
+  </script>
+</body>
+</html>
