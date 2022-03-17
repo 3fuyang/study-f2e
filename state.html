@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>状态模式</title>
+</head>
+<body>
+  <script>
+  // 13.状态模式：允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。
+  // 与封装对象的行为相反，状态模式将事物的每种状态封装成单独的类，跟此种状态有关的行为都被封装在这个类的内部。
+
+  // 状态模式的通用结构：创建一个上下文类（Context），然后在其构造函数中创建每一个状态类的实例对象，Context持有这些状态对象的引用，
+  // 以便将行为委托给状态对象。
+  const Context = function(){
+    this.oneState = new oneState(this)
+    this.anotherState = new anotherState(this)
+    this.noMoreState = new noMoreState(this)
+    this.trigger = null
+  }
+
+  Context.prototype.init = function(){
+    this.currState = this.oneState  // 设置默认初始状态
+  }
+
+  // 编写状态类，Context被传入状态类的构造函数，且状态类需要持有Context对象的引用，以访问其属性
+  </script>
+</body>
+</html>
