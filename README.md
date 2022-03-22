@@ -1,5 +1,5 @@
 # study-js
-<p style="float: right; color: #333; font-size: 12px;">Fwio</p>
+<p style="float: left; color: #333; font-size: 12px;">Fwio</p>
 
 ## Introduction
 
