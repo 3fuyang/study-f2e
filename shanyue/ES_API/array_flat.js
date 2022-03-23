@@ -34,7 +34,7 @@ function flatten(target, depth = 1){
   if(depth === 0) return [...target]
   // Array.prototype.reduce(callback(prev, curr, currIndex, array), ?initialValue)
   // 注意：Array.prototypr.concat方法会自动打平参数的一层数组
-  return target.reduce((prev, curr) => prev.concat(Array.isArray(curr)?flatten(curr, --depth):curr), [])
+  return target.reduce((prev, curr) => prev.concat(Array.isArray(curr)?flatten(curr, depth - 1):curr), [])
 }
 
 // test
