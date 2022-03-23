@@ -63,7 +63,7 @@ function cloneDeep(source, memory = null){
       result.set(key, cloneDeep(value, memory))
     }
   }  
-  // 其余集合引用类型(Object)
+  // 其余集合引用类型(Object, WeakMap, WeakSet)
   else{
     if(memory.has(source)){
       result = memory.get(source)
