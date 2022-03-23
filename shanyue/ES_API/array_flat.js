@@ -30,13 +30,24 @@ Array.prototype.fakeFlat = function(target, depth = 1) {
 }
 
 // 使用数组reduce和merge的递归实现
-function flatten (list, depth = 1) {
-  if (depth === 0) return list
-  return list.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b, depth - 1) : b), [])
+function flatten(target, depth = 1){
+  if(depth === 0) return [...target]
+  // Array.prototype.reduce(callback(prev, curr, currIndex, array), ?initialValue)
+  // 注意：Array.prototypr.concat方法会自动打平参数的一层数组
+  return target.reduce((prev, curr) => prev.concat(Array.isArray(curr)?flatten(curr, --depth):curr), [])
 }
 
 // test
+console.log(new Date())
 const a = Array.prototype.fakeFlat([1, 2, 3, [4, [5, 6]]])
 const b = Array.prototype.fakeFlat([1, 2, 3, [4, [5, 6]]], 2)
+console.log(new Date())
+
+// 使用reduce和concat性能上要好很多
+console.log(new Date())
+const aa = flatten([1, 2, 3, [4, [5, 6]]])
+const bb = flatten([1, 2, 3, [4, [5, 6]]], 2)
+console.log(new Date())
 
 console.log(a, b)
+console.log(aa, bb)
