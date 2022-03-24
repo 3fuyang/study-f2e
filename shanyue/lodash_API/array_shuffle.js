@@ -49,3 +49,5 @@ const getCAPTCHA = (function CAPTCHA(){
 for(let i = 0; i < 10; ++i){
   console.log(getCAPTCHA())
 }
+
+export {shuffleSort as useShuffle}
