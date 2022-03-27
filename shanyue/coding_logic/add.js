@@ -13,6 +13,17 @@ function sumSerial(arr) {
   // 使用Promise.resolve()将前一个结果包装为Promise，有序推入微任务队列，保证每次相加能获取上一次的结果
   return arr.reduce((x, y) => Promise.resolve(x).then(x => add(x, y)))
 }
+// 利用栈的串行
+async function sumSerialWithStack(arr){
+  let res = 0;
+  if(arr.length === 0) return res;
+  if(arr.length === 1) return arr[0];
+
+  let a = arr.pop();
+  let b = arr.pop();
+  arr.push(await add(a, b));
+  return sum(arr)
+}
 
 // 并行
 // 分组函数
