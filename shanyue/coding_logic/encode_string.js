@@ -5,6 +5,13 @@ function encode(str){
   const pattern = /([a-zA-Z])\1+/g
   return str.replace(pattern, (match, p1) => `${p1}${match.length}`)
 }
+
+// 对连续出现1次的编码进行省略
+function encodeOmitOnce(str){
+  const pattern = /([a-zA-Z])\1+/g
+  return str.replace(pattern, (match, p1) => match.length > 1 ? `${p1}${match.length}` : `${p1}`)
+}
+
 // test
 //=> a4b3c2
 console.log(encode('aaaabbbcc'))
