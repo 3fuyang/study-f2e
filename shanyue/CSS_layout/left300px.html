@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>左侧固定 300px，右侧自适应的布局</title>
+  <style>
+.container {
+  display: flex;
+}
+
+.left {
+  flex: 0 0 300px;
+  border: 1px solid #888;
+}
+
+.main {
+  flex: 1 1 auto;
+  border: 1px solid #888;
+}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left">左</div>
+    <div class="main">右</div>
+  </div>
+  
+  <div class="container">
+    <div class="left">左</div>
+    <div class="main">右</div>
+  </div>  
+</body>
+</html>
